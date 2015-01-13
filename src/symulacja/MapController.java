@@ -62,11 +62,9 @@ public class MapController {
 
     //dla kazdego agenta z listy robi nowa, aktualna liste wszystkich kandydatow na przyszle polaczenia
     public void setNewNeighboursToAgents(){
-//        for (Agent eachAgent : agents){
-//            map.makeListOfAgentNeighbours(eachAgent);
-//        }
-        Agent agent0 = agents.get(7);
-        map.makeListOfAgentNeighbours(agent0);
+        for (Agent eachAgent : agents){
+            map.makeListOfAgentNeighbours(eachAgent);
+        }
     }
 
     public void printAgentNeighbours(Agent agent){
@@ -84,7 +82,7 @@ public class MapController {
     public static void main(String[] args){
         Map testMap = new Map();
         MapController controller = new MapController(testMap);
-        Agent agent0 = controller.getAgentFromList(7);
+        Agent agent0 = controller.getAgentFromList(0);
         controller.drawMap();
         controller.setNewNeighboursToAgents();
         controller.printAgentNeighbours(agent0);

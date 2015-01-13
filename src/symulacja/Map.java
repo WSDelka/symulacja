@@ -55,13 +55,10 @@ public class Map {
         ArrayList<Agent> nearAgents = new ArrayList<Agent>();
         int positionY = position.getY();
         int positionX = position.getX();
-        System.out.println("Y agenta ktory szuka sasiadow: " + positionY + " X agenta ktory szuka sasiadow: " + positionX);
         for (int i = positionY-CONNECTION_RANGE; i <= positionY+CONNECTION_RANGE; i++){
             for (int j = positionX-CONNECTION_RANGE; j <= positionX+CONNECTION_RANGE; j++){
                 if (i>=0 && i<MAP_HEIGHT && j>=0 && j<MAP_WIDTH){
-                    System.out.println("Przebadane wspolrzedne Y: " + i + " X: " + j);
-                    if (map[i][j] != null && i != positionY && j != positionX){
-                        System.out.println("Y dodawanego agenta: " + i + " X dodawanego agenta: " + j);
+                    if (map[i][j] != null && (i != positionY || j != positionX)){
                         nearAgents.add(map[i][j]);
                     }
                 }
