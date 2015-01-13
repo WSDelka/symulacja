@@ -2,33 +2,21 @@ package symulacja;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Random;
 
 import static symulacja.Config.MAP_HEIGHT;
 import static symulacja.Config.MAP_WIDTH;
-import static symulacja.Config.NUM_OF_AGENTS;
 
 public class Map {
 
     private Agent[][] map;
-    private ArrayList<Agent> agents;
-    private int height;
-    private int width;
-
-    private Random rand;
 
     public Map(){
-        this.agents = new ArrayList<Agent>();
-        this.rand = new Random();
         initMap();
     }
 
     private void initMap(){
-        this.height = MAP_HEIGHT;
-        this.width = MAP_WIDTH;
-        this.map = new Agent[height][width];
+        this.map = new Agent[MAP_HEIGHT][MAP_WIDTH];
         fillMapWithNulls();
-        randomlySetAgents();
     }
 
     private void fillMapWithNulls(){
@@ -37,20 +25,63 @@ public class Map {
         }
     }
 
-    private void randomlySetAgents(){
-        for (int i = 0; i < NUM_OF_AGENTS; i++){
-            CoordinatePair agentCoordinates = drawNewPositions();
-            while (null != map[agentCoordinates.getY()][agentCoordinates.getX()]){
-                agentCoordinates = drawNewPositions();
-            }
-            Agent newAgent = new Agent(agentCoordinates);
-            this.agents.add(newAgent);
+    public Agent getAgentAtMapPosition(int x, int y){
+        return map[y][x];
+    }
+
+    public void addNewAgentToMap(Agent agent){
+        Position agentPosition = agent.getPositions();
+        this.map[agentPosition.getY()][agentPosition.getX()] = agent;
+    }
+
+    public boolean isAgentsPositionCollision(Position candidatePosition){
+        int candidateX = candidatePosition.getX();
+        int candidateY = candidatePosition.getY();
+        if (map[candidateY][candidateX]!=null){
+            return true;
+        } else {
+            return false;
         }
     }
 
-    private CoordinatePair drawNewPositions(){
-        int agentX = rand.nextInt(MAP_WIDTH);
-        int agentY = rand.nextInt(MAP_HEIGHT);
-        return new CoordinatePair(agentX, agentY);
+    public void updateMapWithAgentPositions(ArrayList<Agent> agents){
+        fillMapWithNulls();
+        for (Agent agent : agents){
+            addNewAgentToMap(agent);
+        }
     }
+
+    //metoda testowa rysujaca plansze i agentow w konsoli
+    //cyfra oznacza id agenta
+    public void draw(){
+        drawWidthBorder();
+        for (int i = 0; i < MAP_HEIGHT; i++) {
+            for (int j = 0; j < MAP_WIDTH + 2; j++) {
+                if(j==0 || j==MAP_WIDTH+1){
+                    drawHeightBorder();
+                } else {
+                    if (map[i][j-1] != null){
+                        int agentID = map[i][j-1].getID();
+                        System.out.print(agentID);
+                    } else {
+                        System.out.print(" ");
+                    }
+                }
+            }
+            System.out.print("\n");
+        }
+        drawWidthBorder();
+    }
+
+    private void drawWidthBorder(){
+        for (int i = 0; i < MAP_WIDTH + 2; i++) {
+            System.out.print("-");
+        }
+        System.out.print("\n");
+    }
+
+    private void drawHeightBorder(){
+        System.out.print("|");
+    }
+
 }

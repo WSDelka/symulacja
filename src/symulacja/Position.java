@@ -1,11 +1,11 @@
 package symulacja;
 
-public class CoordinatePair {
+public class Position {
 
     private int x;
     private int y;
 
-    public CoordinatePair(int beginX, int beginY){
+    public Position(int beginX, int beginY){
         this.x = beginX;
         this.y = beginY;
     }
@@ -24,5 +24,10 @@ public class CoordinatePair {
 
     public int getY(){
         return y;
+    }
+
+    public void updateOld(int diffOfX, int diffOfY){
+        x = x + diffOfX;
+        y = y + diffOfY;
     }
 }
