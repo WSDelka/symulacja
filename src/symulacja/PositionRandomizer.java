@@ -40,4 +40,10 @@ public class PositionRandomizer {
     private int getRandomIntForRangeMove(){
         return rand.nextInt(RANGE_OF_MOVE+RANGE_OF_MOVE-1)-RANGE_OF_MOVE+1;
     }
+
+    //losowanie - 0 lub 1 czy agent powinien sie ruszac
+    public boolean isAgentHasToMove(){
+        int result = rand.nextInt(2);
+        return (result == 1) ? true : false;
+    }
 }

@@ -3,6 +3,7 @@ package symulacja;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import static symulacja.Config.CONNECTION_RANGE;
 import static symulacja.Config.MAP_HEIGHT;
 import static symulacja.Config.MAP_WIDTH;
 
@@ -29,12 +30,52 @@ public class Map {
         return map[y][x];
     }
 
+    //zwraca agenta z mapy o podanym ID
+    //jesli nie ma takiego ID - zwraca null
+    public Agent getAgentAtMapByID(int agentID){
+        for (Agent[] agentsRow : map){
+            for (int i = 0; i < agentsRow.length; i++) {
+                if (agentID == agentsRow[i].getID()){
+                    return agentsRow[i];
+                }
+            }
+        }
+        return null;
+    }
+
+    public void makeListOfAgentNeighbours(Agent agent){
+        Position agentPosition = agent.getPositions();
+        agent.setNewCandidates(getAgentsNearPosition(agentPosition));
+
+    }
+
+    //sprawdzam kwadrat wokol danej pozycji (wiecej opisu w configu przy opisie CONNECTION_RANGE)
+    //gdzies tu blad? :< nie dodaje wszystkich agentow mimo ze powinien :<
+    private ArrayList<Agent> getAgentsNearPosition(Position position){
+        ArrayList<Agent> nearAgents = new ArrayList<Agent>();
+        int positionY = position.getY();
+        int positionX = position.getX();
+        System.out.println("Y agenta ktory szuka sasiadow: " + positionY + " X agenta ktory szuka sasiadow: " + positionX);
+        for (int i = positionY-CONNECTION_RANGE; i <= positionY+CONNECTION_RANGE; i++){
+            for (int j = positionX-CONNECTION_RANGE; j <= positionX+CONNECTION_RANGE; j++){
+                if (i>=0 && i<MAP_HEIGHT && j>=0 && j<MAP_WIDTH){
+                    System.out.println("Przebadane wspolrzedne Y: " + i + " X: " + j);
+                    if (map[i][j] != null && i != positionY && j != positionX){
+                        System.out.println("Y dodawanego agenta: " + i + " X dodawanego agenta: " + j);
+                        nearAgents.add(map[i][j]);
+                    }
+                }
+            }
+        }
+        return nearAgents;
+    }
+
     public void addNewAgentToMap(Agent agent){
         Position agentPosition = agent.getPositions();
         this.map[agentPosition.getY()][agentPosition.getX()] = agent;
     }
 
-    public boolean isAgentsPositionCollision(Position candidatePosition){
+    public boolean isAgentCollisionAtMap(Position candidatePosition){
         int candidateX = candidatePosition.getX();
         int candidateY = candidatePosition.getY();
         if (map[candidateY][candidateX]!=null){

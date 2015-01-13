@@ -25,7 +25,7 @@ public class MapController {
             Position agentPositions;
             do {
                 agentPositions = positionRandomizer.drawNewPositions();
-            } while(map.isAgentsPositionCollision(agentPositions));
+            } while(map.isAgentCollisionAtMap(agentPositions));
             Agent newAgent = new Agent(agentPositions);
             map.addNewAgentToMap(newAgent);
             addAgentToList(newAgent);
@@ -36,17 +36,41 @@ public class MapController {
         this.agents.add(agent);
     }
 
+    public Agent getAgentFromList(int index){
+        return agents.get(index);
+    }
+
+    //iterujemy po liscie agentow
+    //losujemy (50% szans) czy dany agent sie przemieszcza
+    //jesli tak to losujemy mu nowe pozycje dopoki te wylosowane powoduja kolizje
+    //jesli sie zgadza to danemu agentowi ustalamy te nowe pozycje
+    //na koncu odswiezamy mape
     public void moveAgentsRandomly(){
         for (Agent eachAgent : agents){
-            Position beginningAgentPosition = eachAgent.getPositions();
-            Position candidatePosition;
-            do {
-                candidatePosition = positionRandomizer
-                        .randomizeDependsOnOldPosition(beginningAgentPosition.getX(), beginningAgentPosition.getY());
-            } while(map.isAgentsPositionCollision(candidatePosition));
-            eachAgent.setNewPosition(candidatePosition);
+            if (positionRandomizer.isAgentHasToMove()){
+                Position beginningAgentPosition = eachAgent.getPositions();
+                Position candidatePosition;
+                do {
+                    candidatePosition = positionRandomizer
+                            .randomizeDependsOnOldPosition(beginningAgentPosition.getX(), beginningAgentPosition.getY());
+                } while(map.isAgentCollisionAtMap(candidatePosition));
+                eachAgent.setNewPosition(candidatePosition);
+            }
         }
         updateMapWithNewAgentPositions();
+    }
+
+    //dla kazdego agenta z listy robi nowa, aktualna liste wszystkich kandydatow na przyszle polaczenia
+    public void setNewNeighboursToAgents(){
+//        for (Agent eachAgent : agents){
+//            map.makeListOfAgentNeighbours(eachAgent);
+//        }
+        Agent agent0 = agents.get(7);
+        map.makeListOfAgentNeighbours(agent0);
+    }
+
+    public void printAgentNeighbours(Agent agent){
+        agent.printNeighboursIDs();
     }
 
     private void updateMapWithNewAgentPositions(){
@@ -60,12 +84,15 @@ public class MapController {
     public static void main(String[] args){
         Map testMap = new Map();
         MapController controller = new MapController(testMap);
+        Agent agent0 = controller.getAgentFromList(7);
         controller.drawMap();
+        controller.setNewNeighboursToAgents();
+        controller.printAgentNeighbours(agent0);
         controller.moveAgentsRandomly();
-        for (int i = 0; i < 1; i++) {
-            System.out.println();
-        }
+        System.out.println();
         System.out.println("Mapa po randomowym przesunieciu agentow:");
         controller.drawMap();
+        controller.setNewNeighboursToAgents();
+        controller.printAgentNeighbours(agent0);
     }
 }
