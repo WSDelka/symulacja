@@ -26,4 +26,8 @@ public class Config {
     public static final int CONNECTION_RANGE = 5;
 
     public static final int TIME_OF_ROUND_IN_MS = 5000;
+
+    //stałe związane z widokiem
+    public static final int MAP_CELL_SIZE = 40;
+    public static final int VERTEX_SIZE = 30;
 }

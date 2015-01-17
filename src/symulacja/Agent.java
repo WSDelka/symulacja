@@ -8,7 +8,7 @@ public class Agent {
     private ArrayList<Agent> candidates;
     private Position positions;
     private ArrayList<Message> messages;
-    private int id;
+    private Integer id;
     private static int idCounter = 1;
 
     public Agent(Position initPositions){
@@ -27,7 +27,7 @@ public class Agent {
         return positions;
     }
 
-    public int getID(){
+    public Integer getID(){
         return this.id;
     }
 

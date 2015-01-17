@@ -1,5 +1,6 @@
 package symulacja;
 
+import javax.swing.*;
 import java.util.ArrayList;
 
 import static symulacja.Config.NUM_OF_AGENTS;
@@ -79,18 +80,16 @@ public class MapController {
         map.draw();
     }
 
-    public static void main(String[] args){
+    public ArrayList<Agent> getAgents() {
+        return agents;
+    }
+
+    public static void main(String[] args) throws ClassNotFoundException, UnsupportedLookAndFeelException,
+            InstantiationException, IllegalAccessException {
+        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         Map testMap = new Map();
         MapController controller = new MapController(testMap);
-        Agent agent0 = controller.getAgentFromList(0);
-        controller.drawMap();
-        controller.setNewNeighboursToAgents();
-        controller.printAgentNeighbours(agent0);
-        controller.moveAgentsRandomly();
-        System.out.println();
-        System.out.println("Mapa po randomowym przesunieciu agentow:");
-        controller.drawMap();
-        controller.setNewNeighboursToAgents();
-        controller.printAgentNeighbours(agent0);
+        View view = new View(controller);
+        view.createFrame();
     }
 }
