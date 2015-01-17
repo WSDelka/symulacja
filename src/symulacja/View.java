@@ -5,6 +5,7 @@ import static symulacja.Config.*;
 import com.mxgraph.model.mxCell;
 import com.mxgraph.model.mxGeometry;
 import com.mxgraph.swing.mxGraphComponent;
+import com.mxgraph.util.mxEvent;
 import com.mxgraph.view.mxGraph;
 
 import javax.swing.*;
@@ -12,6 +13,7 @@ import javax.swing.text.JTextComponent;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class View {
@@ -27,6 +29,7 @@ public class View {
         graphComponent = new mxGraphComponent(graph);
         vertices = createVerticesMap(graph);
         textPane = new JTextPane();
+        graph.getSelectionModel().addListener(mxEvent.CHANGE, new EventSelectAgentListener(textPane));
     }
 
     public void createFrame()
@@ -47,8 +50,8 @@ public class View {
     public JMenuBar createMenu() {
         JMenuBar menuBar = new JMenuBar();
         JMenu symulacja = new JMenu("symulacja");
-        JMenuItem item = new JMenuItem("Wykonaj 1 krok");
-        item.addActionListener(new ActionListener() {
+        JMenuItem step = new JMenuItem("Wykonaj 1 krok");
+        step.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 controller.setNewNeighboursToAgents();
@@ -56,7 +59,8 @@ public class View {
                 updateVertices();
             }
         });
-        symulacja.add(item);
+        step.setAccelerator(KeyStroke.getKeyStroke("ctrl K"));
+        symulacja.add(step);
         menuBar.add(symulacja);
         return menuBar;
     }
@@ -72,7 +76,7 @@ public class View {
         for (Agent agent : controller.getAgents()) {
             Position positions = agent.getPositions();
             Integer id = agent.getID();
-            mxCell vertex = (mxCell) graph.insertVertex(parent, id.toString(), id,
+            mxCell vertex = (mxCell) graph.insertVertex(parent, null, agent,
                     positions.getX() * MAP_CELL_SIZE, positions.getY() * MAP_CELL_SIZE, VERTEX_SIZE, VERTEX_SIZE);
             vertices.put(id, vertex);
         }
@@ -83,6 +87,7 @@ public class View {
         for (Agent agent : controller.getAgents()) {
             mxCell vertex = vertices.get(agent.getID());
             updatePositions(vertex, agent.getPositions());
+            updateNeighbours(vertex, agent.getNeighbours());
         }
         graphComponent.refresh();
     }
@@ -91,5 +96,14 @@ public class View {
         mxGeometry geometry = vertex.getGeometry();
         geometry.setX(positions.getX() * MAP_CELL_SIZE);
         geometry.setY(positions.getY() * MAP_CELL_SIZE);
+    }
+
+    private void updateNeighbours(mxCell vertex, ArrayList<Agent> neighbours) {
+        mxGraph graph = graphComponent.getGraph();
+        Object parent = graph.getDefaultParent();
+        graph.removeCells(graph.getEdges(vertex));
+        for (Agent neighbour : neighbours) {
+            graph.insertEdge(parent, null, null, vertex, vertices.get(neighbour.getID()));
+        }
     }
 }

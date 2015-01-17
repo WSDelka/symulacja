@@ -16,6 +16,7 @@ public class Agent {
         this.positions = initPositions;
         this.messages = new ArrayList<Message>();
         this.candidates = new ArrayList<Agent>();
+        neighboursAgents = new ArrayList<Agent>();
     }
 
     private void setNewID(){
@@ -51,4 +52,12 @@ public class Agent {
         }
     }
 
+    public ArrayList<Agent> getNeighbours() {
+        return neighboursAgents;
+    }
+
+    @Override
+    public String toString() {
+        return id.toString();
+    }
 }
