@@ -69,9 +69,41 @@ public class Agent {
     //od pierwszego wolnego slotu na polaczenie az do tego connection_number
     // UWAGA! po zaimplementowaniu zmien funkcje sendMessageToNeighbours (znajduje sie w tej klasie troche nizej)
     public void buildNeighboursFromCandidates(){
-
+        int candidates_iterator = findFirstFreeSlot();
+        if (candidates_iterator < 0) {      //agent ma już wystarczającą liczbę połączeń, nie tworzymy kolejnych
+            return;
+        }
+        Agent candidate = null;
+        while(connections.size() < CONNECTIONS_NUMBER && candidates_iterator < candidates.size()) {
+            candidate = candidates.get(candidates_iterator);
+            if (candidate == null) {        //nie powinno się zdarzyć, ale warto sprawdzic
+                return;                     //nie ma sensu dalej tworzyć listy
+            }
+            if (candidate.hasFreePlaceOnConnectionList()) {     //znaleźliśmy dobrego kandydata
+                addNewConnection(candidate);
+            }
+            ++candidates_iterator;
+        }
     }
 
+    //znajduje pierwsze wolne miejsce na utworzenie nowego połączenia, jezeli nie ma juz miejsc zwraca -1
+    private int findFirstFreeSlot() {
+        int connectionSize = connections.size();
+        return connectionSize < CONNECTIONS_NUMBER ? connectionSize : -1;
+    }
+
+    //tworzy polaczenie pomiedzy dwoma agentami
+    private void addNewConnection(Agent otherAgent) {
+        neighboursAgents.add(otherAgent);
+        otherAgent.addNeighbour(this);
+        Connection conn = new Connection(this, otherAgent);
+        addConnection(conn);
+        otherAgent.addConnection(conn);
+    }
+
+    private void addNeighbour(Agent otherAgent) {
+        neighboursAgents.add(otherAgent);
+    }
     //sprawdzanie, czy mozna dodac jeszcze polaczenie
     public boolean hasFreePlaceOnConnectionList(){
         return connections.size() <= CONNECTIONS_NUMBER ? true : false;
@@ -106,7 +138,8 @@ public class Agent {
     //tu po zaimplementowaniu sasiadow trzeba zmienic candidates na neighbours!
     public void sendMessageToNeighbours(int msgID){
         if (messages.containsKey(msgID)){
-            for (Agent eachNeighbour : candidates){
+            buildNeighboursFromCandidates();
+            for (Agent eachNeighbour : neighboursAgents){
                 eachNeighbour.receiveNewMessage(messages.get(msgID));
             }
         }
