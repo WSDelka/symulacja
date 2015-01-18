@@ -70,16 +70,16 @@ public class Agent {
     // UWAGA! po zaimplementowaniu zmien funkcje sendMessageToNeighbours (znajduje sie w tej klasie troche nizej)
     public void buildNeighboursFromCandidates(){
         int candidates_iterator = findFirstFreeSlot();
-        if (candidates_iterator < 0) {      //Agent has enough connections
+        if (candidates_iterator < 0) {      //agent ma już wystarczającą liczbę połączeń, nie tworzymy kolejnych
             return;
         }
         Agent candidate = null;
         while(connections.size() < CONNECTIONS_NUMBER && candidates_iterator < candidates.size()) {
             candidate = candidates.get(candidates_iterator);
-            if (candidate == null) {        //shouldn't happened but for sure its worth checking
-                return;                     //there is no sense to continue
+            if (candidate == null) {        //nie powinno się zdarzyć, ale warto sprawdzic
+                return;                     //nie ma sensu dalej tworzyć listy
             }
-            if (candidate.hasFreePlaceOnConnectionList()) {     //found good candidate
+            if (candidate.hasFreePlaceOnConnectionList()) {     //znaleźliśmy dobrego kandydata
                 addNewConnection(candidate);
             }
             ++candidates_iterator;
