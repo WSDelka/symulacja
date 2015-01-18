@@ -138,7 +138,6 @@ public class Agent {
     //tu po zaimplementowaniu sasiadow trzeba zmienic candidates na neighbours!
     public void sendMessageToNeighbours(int msgID){
         if (messages.containsKey(msgID)){
-            buildNeighboursFromCandidates();
             for (Agent eachNeighbour : neighboursAgents){
                 eachNeighbour.receiveNewMessage(messages.get(msgID));
             }
