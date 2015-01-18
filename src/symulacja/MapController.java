@@ -41,6 +41,15 @@ public class MapController {
         return agents.get(index);
     }
 
+    public Agent getAgentFromListByID(int agentID){
+        for (Agent eachAgent : agents){
+            if (eachAgent.getID() == agentID){
+                return eachAgent;
+            }
+        }
+        return null;
+    }
+
     //iterujemy po liscie agentow
     //losujemy (50% szans) czy dany agent sie przemieszcza
     //jesli tak to losujemy mu nowe pozycje dopoki te wylosowane powoduja kolizje
@@ -64,12 +73,18 @@ public class MapController {
     //dla kazdego agenta z listy robi nowa, aktualna liste wszystkich kandydatow na przyszle polaczenia
     public void setNewNeighboursToAgents(){
         for (Agent eachAgent : agents){
-            map.makeListOfAgentNeighbours(eachAgent);
+            map.makeListOfCandidatesAgentNeighbours(eachAgent);
         }
     }
 
+//    public void connectAgentsWithNeighbours(){
+//        for (Agent eachAgent : agents){
+//            eachAgent.connectWithNeighbour();
+//        }
+//    }
+
     public void printAgentNeighbours(Agent agent){
-        agent.printNeighboursIDs();
+        agent.printCandidateNeighboursIDs();
     }
 
     private void updateMapWithNewAgentPositions(){
@@ -82,6 +97,20 @@ public class MapController {
 
     public ArrayList<Agent> getAgents() {
         return agents;
+    }
+
+    //---------------------- MESSAGES -------------------------------------
+    public void sendMessageByAgent(Integer agentID, String msgContent){
+        Agent sender = getAgentFromListByID(agentID);
+        Message msg = new Message(msgContent, sender, null);
+        sender.addNewMessage(msg);
+        sender.sendMessageToNeighbours(msg.getID());
+    }
+
+    public void forwardLastMessageByAllAgents(){
+        for (Agent agent : agents){
+            agent.sendMessageToNeighbours(Message.getLastActiveID());
+        }
     }
 
     public static void main(String[] args) throws ClassNotFoundException, UnsupportedLookAndFeelException,

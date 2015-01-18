@@ -23,11 +23,13 @@ public class Config {
     //                  -----           ---
     //                  -----
     //wiem ze to wyglada raczej jak prostokat ale tak to graficznie wyglada ;p
-    public static final int CONNECTION_RANGE = 5;
+    public static final int CONNECTION_RANGE = 3;
 
     public static final int TIME_OF_ROUND_IN_MS = 5000;
 
     //stałe związane z widokiem
     public static final int MAP_CELL_SIZE = 40;
     public static final int VERTEX_SIZE = 30;
+
+    public static final int CONNECTIONS_NUMBER = 4;
 }

@@ -1,7 +1,5 @@
 package symulacja;
 
-import static symulacja.Config.*;
-
 import com.mxgraph.model.mxCell;
 import com.mxgraph.model.mxGeometry;
 import com.mxgraph.swing.mxGraphComponent;
@@ -15,6 +13,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import static symulacja.Config.*;
 
 public class View {
 
@@ -54,8 +54,10 @@ public class View {
         step.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                controller.setNewNeighboursToAgents();
                 controller.moveAgentsRandomly();
+                controller.setNewNeighboursToAgents();
+                controller.forwardLastMessageByAllAgents();
+                controller.sendMessageByAgent(1, "No siemano!");
                 updateVertices();
             }
         });

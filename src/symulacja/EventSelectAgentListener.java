@@ -21,7 +21,7 @@ public class EventSelectAgentListener implements mxEventSource.mxIEventListener 
         mxCell vertex = (mxCell) model.getCell();
         if (vertex != null && vertex.isVertex()) {
             Agent agent = (Agent) vertex.getValue();
-            textPane.setText("Agent "+agent.getID()+"\nSąsiedzi: "+agent.getNeighbours());
+            textPane.setText("Agent "+agent.getID()+"\nSąsiedzi: "+agent.getNeighbours()+"\nPosiadane wiadomości: "+agent.getMessagesListOfIDS());
         } else {
             textPane.setText("");
         }

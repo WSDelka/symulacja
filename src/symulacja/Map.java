@@ -43,7 +43,7 @@ public class Map {
         return null;
     }
 
-    public void makeListOfAgentNeighbours(Agent agent){
+    public void makeListOfCandidatesAgentNeighbours(Agent agent){
         Position agentPosition = agent.getPositions();
         agent.setNewCandidates(getAgentsNearPosition(agentPosition));
 
