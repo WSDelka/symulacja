@@ -106,7 +106,7 @@ public class Agent {
     }
     //sprawdzanie, czy mozna dodac jeszcze polaczenie
     public boolean hasFreePlaceOnConnectionList(){
-        return connections.size() <= CONNECTIONS_NUMBER ? true : false;
+        return connections.size() < CONNECTIONS_NUMBER ? true : false;
     }
 
     public void addConnection(Connection conn){
