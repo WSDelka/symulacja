@@ -43,6 +43,7 @@ public class Map {
         return null;
     }
 
+    // na podstawie mapy buduje liste wszystkich (niezaleznie od ilosci) kandydatow na sasiadow
     public void makeListOfCandidatesAgentNeighbours(Agent agent){
         Position agentPosition = agent.getPositions();
         agent.setNewCandidates(getAgentsNearPosition(agentPosition));

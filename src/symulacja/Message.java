@@ -31,6 +31,10 @@ public class Message {
         return author;
     }
 
+    public int getAuthorID(){
+        return author.getID();
+    }
+
     private void setBroadcasted(){
         this.broadcasted = (null == this.receiver) ? true : false;
     }

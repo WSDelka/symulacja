@@ -4,9 +4,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import static symulacja.Config.CONNECTIONS_NUMBER;
+
 public class Agent {
 
     private ArrayList<Agent> neighboursAgents;
+    private ArrayList<Connection> connections;
     private ArrayList<Agent> candidates;
     private Position positions;
     private HashMap<Integer, Message> messages;
@@ -18,7 +21,8 @@ public class Agent {
         this.positions = initPositions;
         this.messages = new HashMap<Integer, Message>();
         this.candidates = new ArrayList<Agent>();
-        neighboursAgents = new ArrayList<Agent>();
+        this.neighboursAgents = new ArrayList<Agent>();
+        this.connections = new ArrayList<Connection>(CONNECTIONS_NUMBER);
     }
 
     private void setNewID(){
@@ -34,24 +38,47 @@ public class Agent {
         return this.id;
     }
 
-    public void receiveNewMessage(Message msg){
-        System.out.println("msg ID: " + msg.getID() + " tresc: " + msg.getContent());
-        if (!isMsgAlreadyArrived(msg)){
-            messages.put(msg.getID(), msg);
-        }
-    }
-
-    private boolean isMsgAlreadyArrived(Message msg){
-        return messages.containsKey(msg.getID()) ? true : false;
-    }
-
     public void setNewPosition(Position newPosition){
         this.positions = newPosition;
     }
 
+    @Override
+    public String toString() {
+        return id.toString();
+    }
+
+    //---------------------------------- NEIGHBOURS ---------------------
+
     public void setNewCandidates(ArrayList<Agent> newCandidates){
         candidates.clear();
         candidates.addAll(newCandidates);
+    }
+
+    //przed nowymi polaczeniami czyscimy obie listy
+    public void clearNeighboursAndConnectionsLists(){
+        this.neighboursAgents.clear();
+        this.connections.clear();
+    }
+
+    //na podstawie kandydatow zbuduj liste sasiadow (ale tylko do connections_number, nie wiecej!)
+    //bierzemy pierwszych kandydatow w liczbie: connections_number i umieszczamy ich na liscie neighboursAgents
+    //przy budowaniu trzeba sprawdzic, czy agent do ktorego budujemy polaczenie ma miejsce na liscie polaczen
+    //jesli nie ma to bierzemy nastepnego z listy
+    //dodatkowo do connections dodajemy nowe polaczenie u obu agentow (zeby zapewnic, ze obaj do siebie maja polaczenie)
+    //no i pamietac ze dla tych dalszych agentow, u ktorych juz ktos zestawil polaczenie to iterujemy nie od 0 tylko
+    //od pierwszego wolnego slotu na polaczenie az do tego connection_number
+    // UWAGA! po zaimplementowaniu zmien funkcje sendMessageToNeighbours (znajduje sie w tej klasie troche nizej)
+    public void buildNeighboursFromCandidates(){
+
+    }
+
+    //sprawdzanie, czy mozna dodac jeszcze polaczenie
+    public boolean hasFreePlaceOnConnectionList(){
+        return connections.size() <= CONNECTIONS_NUMBER ? true : false;
+    }
+
+    public void addConnection(Connection conn){
+        this.connections.add(conn);
     }
 
     public void printCandidateNeighboursIDs(){
@@ -65,11 +92,7 @@ public class Agent {
         return candidates;
     }
 
-    @Override
-    public String toString() {
-        return id.toString();
-    }
-
+    //--------------------------- MESSAGES -------------------------------
     public ArrayList<Integer> getMessagesListOfIDS(){
         ArrayList<Integer> msgIDS = new ArrayList<Integer>();
         Iterator<Integer> keyIterator = messages.keySet().iterator();
@@ -80,12 +103,25 @@ public class Agent {
         return msgIDS;
     }
 
+    //tu po zaimplementowaniu sasiadow trzeba zmienic candidates na neighbours!
     public void sendMessageToNeighbours(int msgID){
         if (messages.containsKey(msgID)){
             for (Agent eachNeighbour : candidates){
                 eachNeighbour.receiveNewMessage(messages.get(msgID));
             }
         }
+    }
+
+
+    public void receiveNewMessage(Message msg){
+        System.out.println("msg ID: " + msg.getID() + " autor ID: " + msg.getAuthorID() + " tresc: " + msg.getContent());
+        if (!isMsgAlreadyArrived(msg)){
+            messages.put(msg.getID(), msg);
+        }
+    }
+
+    private boolean isMsgAlreadyArrived(Message msg){
+        return messages.containsKey(msg.getID()) ? true : false;
     }
 
     public void addNewMessage(Message msg){

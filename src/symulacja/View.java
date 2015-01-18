@@ -23,6 +23,8 @@ public class View {
     private MapController controller;
     private java.util.Map<Integer, mxCell> vertices;
 
+    private static int stepCounter = 1;
+
     public View(MapController controller) {
         this.controller = controller;
         mxGraph graph = new mxGraph();
@@ -47,6 +49,7 @@ public class View {
         frame.setVisible(true);
     }
 
+    // tu feature - kazdy agent co ture wysyla wiadomosc
     public JMenuBar createMenu() {
         JMenuBar menuBar = new JMenuBar();
         JMenu symulacja = new JMenu("symulacja");
@@ -56,12 +59,17 @@ public class View {
             public void actionPerformed(ActionEvent e) {
                 controller.moveAgentsRandomly();
                 controller.setNewNeighboursToAgents();
+                controller.connectAgentsWithNeighbours();
                 controller.forwardLastMessageByAllAgents();
-                controller.sendMessageByAgent(1, "No siemano!");
+                if (stepCounter <= NUM_OF_AGENTS){
+                    String msgContent = "No siemano" + stepCounter + "!";
+                    controller.sendMessageByAgent(stepCounter, msgContent);
+                    stepCounter++;
+                }
                 updateVertices();
             }
         });
-        step.setAccelerator(KeyStroke.getKeyStroke("ctrl K"));
+        step.setAccelerator(KeyStroke.getKeyStroke("K"));
         symulacja.add(step);
         menuBar.add(symulacja);
         return menuBar;
