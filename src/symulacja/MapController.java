@@ -79,9 +79,12 @@ public class MapController {
 
     // 1. czyscimy listy agentow (neighbours i connections)
     // 2. na podstawie kandydatow budujemy liste sasiadow zachowujac reguly opisane w klasie agent
-    // juz dodalem wywolanie tej funkcji w klasie View w JMenuBar(tam z gory gdzie sie wywoluje krok)
     public void connectAgentsWithNeighbours(){
-        for (Agent eachAgent : agents){
+        for (Agent eachAgent : agents) {
+            eachAgent.clearNeighboursAndConnectionsLists();
+        }
+        for (Agent eachAgent : agents) {
+            eachAgent.buildNeighboursFromCandidates();
         }
     }
 
