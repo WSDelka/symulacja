@@ -57,10 +57,11 @@ public class View {
         step.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                controller.setCurrentStep(stepCounter);
                 controller.moveAgentsRandomly();
                 controller.setNewNeighboursToAgents();
                 controller.connectAgentsWithNeighbours();
-                controller.forwardLastMessageByAllAgents();
+                controller.sendMessagesByAllAgents();
                 if (stepCounter <= NUM_OF_AGENTS){
                     String msgContent = "No siemano" + stepCounter + "!";
                     controller.sendMessageByAgent(stepCounter, msgContent);

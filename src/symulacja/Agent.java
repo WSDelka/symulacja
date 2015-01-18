@@ -14,6 +14,7 @@ public class Agent {
     private Position positions;
     private HashMap<Integer, Message> messages;
     private Integer id;
+    private int currentTime;
     private static int idCounter = 1;
 
     public Agent(Position initPositions){
@@ -92,6 +93,10 @@ public class Agent {
         return connectionSize < CONNECTIONS_NUMBER ? connectionSize : -1;
     }
 
+    public void setTime(int time) {
+        currentTime = time;
+    }
+
     //tworzy polaczenie pomiedzy dwoma agentami
     private void addNewConnection(Agent otherAgent) {
         neighboursAgents.add(otherAgent);
@@ -135,6 +140,13 @@ public class Agent {
         return msgIDS;
     }
 
+    public void sendMessagesToNeighbours() {
+        for (Message message : messages.values()) {
+            if (message.isValid(currentTime)) {
+                sendMessageToNeighbours(message.getID());
+            }
+        }
+    }
     //tu po zaimplementowaniu sasiadow trzeba zmienic candidates na neighbours!
     public void sendMessageToNeighbours(int msgID){
         if (messages.containsKey(msgID)){

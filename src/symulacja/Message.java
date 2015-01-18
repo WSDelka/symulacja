@@ -1,20 +1,23 @@
 package symulacja;
 
+import static symulacja.Config.MESSAGE_LIFETIME;
 public class Message {
 
     private String content;
     private Agent author;
     private Agent receiver;
     private int id;
+    int sendTime;
     private static int idCounter = 1;
 
     private boolean broadcasted;
 
-    public Message(String text, Agent msgAuthor, Agent msgReceiver){
+    public Message(String text, Agent msgAuthor, Agent msgReceiver, int sendTime){
         setNewID();
         this.content = text;
         this.author = msgAuthor;
         this.receiver = msgReceiver;
+        this.sendTime = sendTime;
         setBroadcasted();
     }
 
@@ -29,6 +32,10 @@ public class Message {
 
     public Agent getAuthor(){
         return author;
+    }
+
+    public boolean isValid(int currentStep) {
+        return currentStep-sendTime < MESSAGE_LIFETIME;
     }
 
     public int getAuthorID(){

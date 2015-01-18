@@ -13,6 +13,7 @@ public class MapController {
     private Map map;
     private ArrayList<Agent> agents;
     private PositionRandomizer positionRandomizer;
+    private static int currentStep;
 
     public MapController(Map simulationMap){
         this.map = simulationMap;
@@ -30,6 +31,21 @@ public class MapController {
             Agent newAgent = new Agent(agentPositions);
             map.addNewAgentToMap(newAgent);
             addAgentToList(newAgent);
+        }
+    }
+
+    public void setCurrentStep(int step) {
+        currentStep = step;
+        setAgentsTime();
+    }
+
+    public int getCurrentStep() {
+        return currentStep;
+    }
+
+    public void setAgentsTime() {
+        for (Agent agent : agents) {
+            agent.setTime(currentStep);
         }
     }
 
@@ -107,14 +123,14 @@ public class MapController {
     //---------------------- MESSAGES -------------------------------------
     public void sendMessageByAgent(Integer agentID, String msgContent){
         Agent sender = getAgentFromListByID(agentID);
-        Message msg = new Message(msgContent, sender, null);
+        Message msg = new Message(msgContent, sender, null, currentStep);
         sender.addNewMessage(msg);
         sender.sendMessageToNeighbours(msg.getID());
     }
 
-    public void forwardLastMessageByAllAgents(){
+    public void sendMessagesByAllAgents(){
         for (Agent agent : agents){
-            agent.sendMessageToNeighbours(Message.getLastActiveID());
+            agent.sendMessagesToNeighbours();
         }
     }
 

@@ -29,4 +29,7 @@ public class Config {
 
     //maksymalna ilosc polaczen dla jednego agenta
     public static final int CONNECTIONS_NUMBER = 5;
+
+    //maksymalny czas rozsyłania wiadomości
+    public static final int MESSAGE_LIFETIME = 4;
 }
