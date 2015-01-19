@@ -75,12 +75,12 @@ public class Agent {
             return;
         }
         Agent candidate = null;
-        while(connections.size() < CONNECTIONS_NUMBER && candidates_iterator < candidates.size()) {
+        while(connections.size() < CONNECTIONS_NUMBER && candidates_iterator < candidates.size()){
             candidate = candidates.get(candidates_iterator);
-            if (candidate == null) {        //nie powinno się zdarzyć, ale warto sprawdzic
+            if (candidate == null){        //nie powinno się zdarzyć, ale warto sprawdzic
                 return;                     //nie ma sensu dalej tworzyć listy
             }
-            if (candidate.hasFreePlaceOnConnectionList()) {     //znaleźliśmy dobrego kandydata
+            if (candidate.hasFreePlaceOnConnectionList() && !this.isCandidateAlreadyAtList(candidate)){     //znaleźliśmy dobrego kandydata
                 addNewConnection(candidate);
             }
             ++candidates_iterator;
@@ -102,20 +102,32 @@ public class Agent {
         neighboursAgents.add(otherAgent);
         otherAgent.addNeighbour(this);
         Connection conn = new Connection(this, otherAgent);
-        addConnection(conn);
+        this.addConnection(conn);
         otherAgent.addConnection(conn);
+    }
+
+    public void addConnection(Connection conn){
+        this.connections.add(conn);
     }
 
     private void addNeighbour(Agent otherAgent) {
         neighboursAgents.add(otherAgent);
     }
+
     //sprawdzanie, czy mozna dodac jeszcze polaczenie
     public boolean hasFreePlaceOnConnectionList(){
         return connections.size() < CONNECTIONS_NUMBER ? true : false;
     }
 
-    public void addConnection(Connection conn){
-        this.connections.add(conn);
+    private boolean isCandidateAlreadyAtList(Agent candidate){
+        if (null != candidate){
+            for (Agent neighbour : neighboursAgents){
+                if(candidate.getID() == neighbour.getID()){
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     public void printCandidateNeighboursIDs(){
@@ -126,7 +138,7 @@ public class Agent {
     }
 
     public ArrayList<Agent> getNeighbours(){
-        return candidates;
+        return neighboursAgents;
     }
 
     //--------------------------- MESSAGES -------------------------------
