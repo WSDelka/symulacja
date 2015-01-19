@@ -28,10 +28,16 @@ public class View {
     public View(MapController controller) {
         this.controller = controller;
         mxGraph graph = new mxGraph();
+        setGraphNonEditable(graph);
         graphComponent = new mxGraphComponent(graph);
         vertices = createVerticesMap(graph);
         textPane = new JTextPane();
+        textPane.setEditable(false);
         graph.getSelectionModel().addListener(mxEvent.CHANGE, new EventSelectAgentListener(textPane));
+    }
+
+    private void setGraphNonEditable(mxGraph graph){
+        graph.setCellsLocked(true);
     }
 
     public void createFrame()
