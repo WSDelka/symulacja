@@ -35,7 +35,7 @@ public class Message {
     }
 
     public boolean isValid(int currentStep) {
-        return currentStep-sendTime < MESSAGE_LIFETIME;
+        return currentStep-sendTime <= MESSAGE_LIFETIME;
     }
 
     public int getAuthorID(){
