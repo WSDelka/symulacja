@@ -23,7 +23,7 @@ public class Agent {
         this.messages = new HashMap<Integer, Message>();
         this.candidates = new ArrayList<Agent>();
         this.neighboursAgents = new ArrayList<Agent>();
-        this.connections = new ArrayList<Connection>(CONNECTIONS_NUMBER);
+        this.connections = new ArrayList<Connection>();
     }
 
     private void setNewID(){
@@ -70,20 +70,26 @@ public class Agent {
     //od pierwszego wolnego slotu na polaczenie az do tego connection_number
     // UWAGA! po zaimplementowaniu zmien funkcje sendMessageToNeighbours (znajduje sie w tej klasie troche nizej)
     public void buildNeighboursFromCandidates(){
-        int candidates_iterator = findFirstFreeSlot();
-        if (candidates_iterator < 0) {      //agent ma już wystarczającą liczbę połączeń, nie tworzymy kolejnych
-            return;
-        }
-        Agent candidate = null;
-        while(connections.size() < CONNECTIONS_NUMBER && candidates_iterator < candidates.size()){
-            candidate = candidates.get(candidates_iterator);
-            if (candidate == null){        //nie powinno się zdarzyć, ale warto sprawdzic
-                return;                     //nie ma sensu dalej tworzyć listy
-            }
-            if (candidate.hasFreePlaceOnConnectionList() && !this.isCandidateAlreadyAtList(candidate)){     //znaleźliśmy dobrego kandydata
+//        int candidates_iterator = findFirstFreeSlot();
+//        if (candidates_iterator < 0) {      //agent ma już wystarczającą liczbę połączeń, nie tworzymy kolejnych
+//            return;
+//        }
+//        Agent candidate = null;
+//        while(connections.size() < CONNECTIONS_NUMBER && candidates_iterator < candidates.size()){
+//            candidate = candidates.get(candidates_iterator);
+//            if (candidate == null){        //nie powinno się zdarzyć, ale warto sprawdzic
+//                return;                     //nie ma sensu dalej tworzyć listy
+//            }
+//            if (candidate.hasFreePlaceOnConnectionList() && !this.isCandidateAlreadyAtList(candidate)){     //znaleźliśmy dobrego kandydata
+//                addNewConnection(candidate);
+//            }
+//            ++candidates_iterator;
+//        }
+        for (Agent candidate : this.candidates){
+            if (!this.isCandidateAlreadyAtList(candidate) && this.hasFreePlaceOnNeighboursList() && candidate.hasFreePlaceOnNeighboursList()
+                    && this.areListSizesEquals()){
                 addNewConnection(candidate);
             }
-            ++candidates_iterator;
         }
     }
 
@@ -119,6 +125,10 @@ public class Agent {
         return connections.size() < CONNECTIONS_NUMBER ? true : false;
     }
 
+    private boolean hasFreePlaceOnNeighboursList(){
+        return neighboursAgents.size() < CONNECTIONS_NUMBER ? true : false;
+    }
+
     private boolean isCandidateAlreadyAtList(Agent candidate){
         if (null != candidate){
             for (Agent neighbour : neighboursAgents){
@@ -128,6 +138,10 @@ public class Agent {
             }
         }
         return false;
+    }
+
+    private boolean areListSizesEquals(){
+        return neighboursAgents.size() == connections.size() ? true : false;
     }
 
 //    public void printCandidateNeighboursIDs(){
