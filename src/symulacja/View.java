@@ -46,7 +46,7 @@ public class View {
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setJMenuBar(createMenu());
         graphComponent.setMinimumSize(new Dimension(MAP_CELL_SIZE * MAP_WIDTH, MAP_CELL_SIZE * MAP_HEIGHT));
-        frame.setPreferredSize(new Dimension(600, 600));
+        frame.setPreferredSize(new Dimension(FRAME_SIZE, FRAME_SIZE));
         JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, graphComponent, new JScrollPane(textPane));
         splitPane.setOneTouchExpandable(true);
         frame.add(splitPane, BorderLayout.CENTER);

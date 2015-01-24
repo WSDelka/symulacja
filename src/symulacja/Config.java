@@ -2,14 +2,14 @@ package symulacja;
 
 public class Config {
 
-    public static final int MAP_WIDTH = 10;
-    public static final int MAP_HEIGHT = 10;
+    public static final int MAP_WIDTH = 20;
+    public static final int MAP_HEIGHT = 20;
 
-    public static final int NUM_OF_AGENTS = 9;
+    public static final int NUM_OF_AGENTS = 20;
 
     //oznacza to, ze bedzie losowal z wartosci o 1 mniejszej, bo nie bierze on
     //po uwage gornej wartosci (czyli dla 3 losuje z <0,2>)
-    public static final int RANGE_OF_MOVE = 3;
+    public static final int RANGE_OF_MOVE = 4;
 
     //zakladamy, ze okrag aproksymujemy kwadratem xD
     //agent dla ktorego sprawdzamy zasieg znajduje sie w samym srodku kwadratu
@@ -21,11 +21,13 @@ public class Config {
     //                  -----           ---
     //                  -----
     //wiem ze to wyglada raczej jak prostokat ale tak to graficznie wyglada ;p
-    public static final int CONNECTION_RANGE = 3;
+    public static final int CONNECTION_RANGE = 4;
 
     //stałe związane z widokiem
-    public static final int MAP_CELL_SIZE = 40;
-    public static final int VERTEX_SIZE = 30;
+    public static final int MAP_CELL_SIZE = 30;
+    public static final int VERTEX_SIZE = 20;
+
+    public static final int FRAME_SIZE = 800;
 
     //maksymalna ilosc polaczen dla jednego agenta
     public static final int CONNECTIONS_NUMBER = 5;

@@ -3,9 +3,7 @@ package symulacja;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import static symulacja.Config.CONNECTION_RANGE;
-import static symulacja.Config.MAP_HEIGHT;
-import static symulacja.Config.MAP_WIDTH;
+import static symulacja.Config.*;
 
 public class Map {
 
@@ -81,6 +79,18 @@ public class Map {
         } else {
             return false;
         }
+    }
+
+    public void updateMapWithNewAgentPosition(Agent agent, Position oldAgentPositions){
+        Position oldPositions = oldAgentPositions;
+        setPositionOnMapToNull(oldPositions);
+        addNewAgentToMap(agent);
+    }
+
+    private void setPositionOnMapToNull(Position position){
+        int positionX = position.getX();
+        int positionY = position.getY();
+        map[positionY][positionX] = null;
     }
 
     public void updateMapWithAgentPositions(ArrayList<Agent> agents){

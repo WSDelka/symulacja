@@ -81,9 +81,10 @@ public class MapController {
                             .randomizeDependsOnOldPosition(beginningAgentPosition.getX(), beginningAgentPosition.getY());
                 } while(map.isAgentCollisionAtMap(candidatePosition));
                 eachAgent.setNewPosition(candidatePosition);
+                updateMapWithNewAgentPosition(eachAgent, beginningAgentPosition);
             }
         }
-        updateMapWithNewAgentPositions();
+//        updateMapWithNewAgentPositions();
     }
 
     //dla kazdego agenta z listy robi nowa, aktualna liste wszystkich kandydatow na przyszle polaczenia
@@ -104,17 +105,21 @@ public class MapController {
         }
     }
 
-    public void printAgentNeighbours(Agent agent){
-        agent.printCandidateNeighboursIDs();
+//    public void printAgentNeighbours(Agent agent){
+//        agent.printCandidateNeighboursIDs();
+//    }
+
+//    private void updateMapWithNewAgentPositions(){
+//        map.updateMapWithAgentPositions(agents);
+//    }
+
+    private void updateMapWithNewAgentPosition(Agent agent, Position oldAgentPositions){
+        map.updateMapWithNewAgentPosition(agent, oldAgentPositions);
     }
 
-    private void updateMapWithNewAgentPositions(){
-        map.updateMapWithAgentPositions(agents);
-    }
-
-    public void drawMap(){
-        map.draw();
-    }
+//    public void drawMap(){
+//        map.draw();
+//    }
 
     public ArrayList<Agent> getAgents() {
         return agents;
