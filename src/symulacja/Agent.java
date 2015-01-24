@@ -86,9 +86,13 @@ public class Agent {
 //            ++candidates_iterator;
 //        }
         for (Agent candidate : this.candidates){
-            if (!this.isCandidateAlreadyAtList(candidate) && this.hasFreePlaceOnNeighboursList() && candidate.hasFreePlaceOnNeighboursList()
-                    && this.areListSizesEquals()){
-                addNewConnection(candidate);
+            if (this.hasFreePlaceOnNeighboursList()){
+                if (!this.isCandidateAlreadyAtList(candidate) && candidate.hasFreePlaceOnNeighboursList()
+                        && this.areListSizesEquals()){
+                    addNewConnection(candidate);
+                }
+            } else{
+                break;
             }
         }
     }
