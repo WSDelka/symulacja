@@ -130,12 +130,12 @@ public class Agent {
         return false;
     }
 
-    public void printCandidateNeighboursIDs(){
-        System.out.println("Aktualna lista kandydatow na sasiadow dla agenta o ID: " + this.getID());
-        for (Agent eachAgent : candidates){
-            System.out.println(eachAgent.getID());
-        }
-    }
+//    public void printCandidateNeighboursIDs(){
+//        System.out.println("Aktualna lista kandydatow na sasiadow dla agenta o ID: " + this.getID());
+//        for (Agent eachAgent : candidates){
+//            System.out.println(eachAgent.getID());
+//        }
+//    }
 
     public ArrayList<Agent> getNeighbours(){
         return neighboursAgents;
@@ -159,7 +159,7 @@ public class Agent {
             }
         }
     }
-    //tu po zaimplementowaniu sasiadow trzeba zmienic candidates na neighbours!
+
     public void sendMessageToNeighbours(int msgID){
         if (messages.containsKey(msgID)){
             for (Agent eachNeighbour : neighboursAgents){
@@ -167,7 +167,6 @@ public class Agent {
             }
         }
     }
-
 
     public void receiveNewMessage(Message msg){
         System.out.println("msg ID: " + msg.getID() + " autor ID: " + msg.getAuthorID() + " tresc: " + msg.getContent());

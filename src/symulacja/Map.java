@@ -24,22 +24,22 @@ public class Map {
         }
     }
 
-    public Agent getAgentAtMapPosition(int x, int y){
-        return map[y][x];
-    }
+//    public Agent getAgentAtMapPosition(int x, int y){
+//        return map[y][x];
+//    }
 
     //zwraca agenta z mapy o podanym ID
     //jesli nie ma takiego ID - zwraca null
-    public Agent getAgentAtMapByID(int agentID){
-        for (Agent[] agentsRow : map){
-            for (int i = 0; i < agentsRow.length; i++) {
-                if (agentID == agentsRow[i].getID()){
-                    return agentsRow[i];
-                }
-            }
-        }
-        return null;
-    }
+//    public Agent getAgentAtMapByID(int agentID){
+//        for (Agent[] agentsRow : map){
+//            for (int i = 0; i < agentsRow.length; i++) {
+//                if (agentID == agentsRow[i].getID()){
+//                    return agentsRow[i];
+//                }
+//            }
+//        }
+//        return null;
+//    }
 
     // na podstawie mapy buduje liste wszystkich (niezaleznie od ilosci) kandydatow na sasiadow
     public void makeListOfCandidatesAgentNeighbours(Agent agent){
@@ -93,44 +93,44 @@ public class Map {
         map[positionY][positionX] = null;
     }
 
-    public void updateMapWithAgentPositions(ArrayList<Agent> agents){
-        fillMapWithNulls();
-        for (Agent agent : agents){
-            addNewAgentToMap(agent);
-        }
-    }
+//    public void updateMapWithAgentPositions(ArrayList<Agent> agents){
+//        fillMapWithNulls();
+//        for (Agent agent : agents){
+//            addNewAgentToMap(agent);
+//        }
+//    }
 
     //metoda testowa rysujaca plansze i agentow w konsoli
     //cyfra oznacza id agenta
-    public void draw(){
-        drawWidthBorder();
-        for (int i = 0; i < MAP_HEIGHT; i++) {
-            for (int j = 0; j < MAP_WIDTH + 2; j++) {
-                if(j==0 || j==MAP_WIDTH+1){
-                    drawHeightBorder();
-                } else {
-                    if (map[i][j-1] != null){
-                        int agentID = map[i][j-1].getID();
-                        System.out.print(agentID);
-                    } else {
-                        System.out.print(" ");
-                    }
-                }
-            }
-            System.out.print("\n");
-        }
-        drawWidthBorder();
-    }
+//    public void draw(){
+//        drawWidthBorder();
+//        for (int i = 0; i < MAP_HEIGHT; i++) {
+//            for (int j = 0; j < MAP_WIDTH + 2; j++) {
+//                if(j==0 || j==MAP_WIDTH+1){
+//                    drawHeightBorder();
+//                } else {
+//                    if (map[i][j-1] != null){
+//                        int agentID = map[i][j-1].getID();
+//                        System.out.print(agentID);
+//                    } else {
+//                        System.out.print(" ");
+//                    }
+//                }
+//            }
+//            System.out.print("\n");
+//        }
+//        drawWidthBorder();
+//    }
 
-    private void drawWidthBorder(){
-        for (int i = 0; i < MAP_WIDTH + 2; i++) {
-            System.out.print("-");
-        }
-        System.out.print("\n");
-    }
-
-    private void drawHeightBorder(){
-        System.out.print("|");
-    }
+//    private void drawWidthBorder(){
+//        for (int i = 0; i < MAP_WIDTH + 2; i++) {
+//            System.out.print("-");
+//        }
+//        System.out.print("\n");
+//    }
+//
+//    private void drawHeightBorder(){
+//        System.out.print("|");
+//    }
 
 }

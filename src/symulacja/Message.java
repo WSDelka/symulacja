@@ -30,9 +30,9 @@ public class Message {
         return this.id;
     }
 
-    public Agent getAuthor(){
-        return author;
-    }
+//    public Agent getAuthor(){
+//        return author;
+//    }
 
     public boolean isValid(int currentStep) {
         return currentStep-sendTime <= MESSAGE_LIFETIME;
@@ -46,15 +46,15 @@ public class Message {
         this.broadcasted = (null == this.receiver) ? true : false;
     }
 
-    public boolean checkBroadcasted(){
-        return this.broadcasted;
-    }
+//    public boolean checkBroadcasted(){
+//        return this.broadcasted;
+//    }
 
     public String getContent(){
         return content;
     }
 
-    public static int getLastActiveID(){
-        return idCounter-1;
-    }
+//    public static int getLastActiveID(){
+//        return idCounter-1;
+//    }
 }

@@ -39,9 +39,9 @@ public class MapController {
         setAgentsTime();
     }
 
-    public int getCurrentStep() {
-        return currentStep;
-    }
+//    public int getCurrentStep() {
+//        return currentStep;
+//    }
 
     public void setAgentsTime() {
         for (Agent agent : agents) {
@@ -53,9 +53,9 @@ public class MapController {
         this.agents.add(agent);
     }
 
-    public Agent getAgentFromList(int index){
-        return agents.get(index);
-    }
+//    public Agent getAgentFromList(int index){
+//        return agents.get(index);
+//    }
 
     public Agent getAgentFromListByID(int agentID){
         for (Agent eachAgent : agents){
